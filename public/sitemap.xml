@@ -2,24 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>gvivid.github.io/</loc>
-    <lastmod>2025-07-01T17:22:40+03:00</lastmod>
+    <loc>//localhost:1313/authors/</loc>
   </url><url>
-    <loc>gvivid.github.io/posts/nice/</loc>
-    <lastmod>2025-07-01T17:22:40+03:00</lastmod>
+    <loc>//localhost:1313/categories/</loc>
   </url><url>
-    <loc>gvivid.github.io/posts/</loc>
-    <lastmod>2025-07-01T17:22:40+03:00</lastmod>
+    <loc>//localhost:1313/</loc>
   </url><url>
-    <loc>gvivid.github.io/posts/the-world/</loc>
-    <lastmod>2025-07-01T17:12:26+03:00</lastmod>
+    <loc>//localhost:1313/series/</loc>
   </url><url>
-    <loc>gvivid.github.io/authors/</loc>
-  </url><url>
-    <loc>gvivid.github.io/categories/</loc>
-  </url><url>
-    <loc>gvivid.github.io/series/</loc>
-  </url><url>
-    <loc>gvivid.github.io/tags/</loc>
+    <loc>//localhost:1313/tags/</loc>
   </url>
 </urlset>
