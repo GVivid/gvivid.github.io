@@ -1,12 +1,13 @@
 .DS_Store
 archetypes
 assets
-content
 data
 debug.sh
 hugo.toml
 i18n
-layouts
 resources
 static
-themes
+getContent.sh
+backups
+.hugo_build.lock
+hugo.toml.path

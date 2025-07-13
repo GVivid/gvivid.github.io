@@ -73,11 +73,16 @@ shortname = "GVivid"
 # Menu links
 [[menu.main]]
   name = "Blog"
-  weight = 1
+  weight = 2
   url  = "posts/"
 [[menu.main]]
   name = "About"
-  weight = 2
+  weight = 3
+[[menu.main]]
+  name = "Portfolio"
+  weight = 1
+  url  = "portfolio/"
+
 
 [module]
   [[module.mounts]]

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Portfolios on GVivid</title>
+    <link>//localhost:1313/portfolio/</link>
+    <description>Recent content in Portfolios on GVivid</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 12 Jul 2025 21:34:18 +0300</lastBuildDate>
+    <atom:link href="//localhost:1313/portfolio/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Placeholder</title>
+      <link>//localhost:1313/portfolio/placeholder/</link>
+      <pubDate>Sat, 12 Jul 2025 21:34:18 +0300</pubDate>
+      <guid>//localhost:1313/portfolio/placeholder/</guid>
+      <description>&lt;p&gt;Portfolio Coming soon!&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
