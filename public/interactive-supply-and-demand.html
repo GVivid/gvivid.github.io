@@ -1,0 +1,598 @@
+<div class="dwl-calculator-module">
+	<style>
+		.dwl-calculator-module {
+			--bg-color: #121212;
+			--card-bg: #1e1e1e;
+			--text-color: #e0e0e0;
+			--text-secondary: #aaaaaa;
+			--border-color: #333333;
+			--error-color: #cf6679;
+			--input-bg: #2d2d2d;
+			--grid-color: #2a2a2a;
+
+			background-color: var(--bg-color);
+			color: var(--text-color);
+			padding: 20px;
+			display: flex;
+			justify-content: center;
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+		}
+
+		.dwl-calculator-module .container {
+			justify-content: center;
+			align-items: center;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 20px;
+			max-width: 1800px;
+			width: 100%;
+		}
+
+		.dwl-calculator-module .card {
+			background: var(--card-bg);
+			border-radius: 8px;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+			border: 1px solid var(--border-color);
+			padding: 20px;
+		}
+
+		.dwl-calculator-module .controls-panel {
+			flex: 1;
+			min-width: 380px;
+		}
+
+		.dwl-calculator-module .graph-panel {
+			flex: 1.5;
+			min-width: 450px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.dwl-calculator-module h2,
+		.dwl-calculator-module h3 {
+			margin-top: 0;
+			margin-bottom: 15px;
+			border-bottom: 2px solid var(--border-color);
+			padding-bottom: 8px;
+			color: #ffffff;
+		}
+
+		.dwl-calculator-module .input-group {
+			margin-bottom: 15px;
+		}
+
+		.dwl-calculator-module .inline-inputs {
+			display: flex;
+			gap: 10px;
+		}
+
+		.dwl-calculator-module .inline-inputs>div {
+			flex: 1;
+		}
+
+		.dwl-calculator-module label {
+			display: block;
+			font-weight: 600;
+			margin-bottom: 5px;
+			font-size: 0.9rem;
+			color: var(--text-color);
+		}
+
+		.dwl-calculator-module input[type="text"],
+		.dwl-calculator-module input[type="number"],
+		.dwl-calculator-module input[type="range"],
+		.dwl-calculator-module select {
+			width: 100%;
+			box-sizing: border-box;
+			background-color: var(--input-bg);
+			color: #ffffff;
+			border: 1px solid var(--border-color);
+			border-radius: 4px;
+			padding: 10px;
+			font-family: inherit;
+			font-size: 1rem;
+		}
+
+		.dwl-calculator-module input[type="number"] {
+			font-family: "Courier New", Courier, monospace;
+		}
+
+		.dwl-calculator-module input[type="range"] {
+			background: transparent;
+			border: none;
+			padding: 0;
+		}
+
+		.dwl-calculator-module .slider-container {
+			display: flex;
+			align-items: center;
+			gap: 15px;
+		}
+
+		.dwl-calculator-module .slider-container input[type="range"] {
+			flex: 2;
+		}
+
+		.dwl-calculator-module .slider-container input[type="number"] {
+			flex: 1;
+			min-width: 80px;
+			text-align: right;
+		}
+
+		.dwl-calculator-module .metrics-table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 15px;
+		}
+
+		.dwl-calculator-module .metrics-table th,
+		.dwl-calculator-module .metrics-table td {
+			text-align: left;
+			padding: 8px;
+			border-bottom: 1px solid var(--border-color);
+		}
+
+		.dwl-calculator-module .metrics-table td {
+			color: var(--text-secondary);
+		}
+
+		.dwl-calculator-module .metrics-table td:last-child {
+			color: #ffffff;
+			font-family: monospace;
+			font-size: 1rem;
+			text-align: right;
+		}
+
+		.dwl-calculator-module .dwl-highlight td {
+			font-weight: bold;
+			color: var(--error-color) !important;
+		}
+
+		.dwl-calculator-module canvas {
+			background: #181818;
+			border: 1px solid var(--border-color);
+			border-radius: 4px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+	</style>
+
+	<div class="container">
+		<div class="card controls-panel">
+			<h2>Market Parameters</h2>
+
+			<h3>Demand Configuration: P = a - b * Q</h3>
+			<div class="input-group inline-inputs">
+				<div>
+					<label for="demandA">Intercept (a):</label>
+					<input type="number" id="demandA" value="100" step="1">
+				</div>
+				<div>
+					<label for="demandB">Slope Coefficient (b):</label>
+					<input type="number" id="demandB" value="2" step="0.05" min="0.01">
+				</div>
+			</div>
+
+			<h3>Supply Configuration: P = c + d * Q</h3>
+			<div class="input-group inline-inputs">
+				<div>
+					<label for="supplyC">Intercept (c):</label>
+					<input type="number" id="supplyC" value="10" step="1">
+				</div>
+				<div>
+					<label for="supplyD">Slope Coefficient (d):</label>
+					<input type="number" id="supplyD" value="0.5" step="0.05" min="0.00">
+				</div>
+			</div>
+
+			<h3>Policy Configuration</h3>
+			<div class="input-group inline-inputs">
+				<div>
+					<label for="policyDirection">Policy Instrument:</label>
+					<select id="policyDirection">
+						<option value="tax">Tax</option>
+						<option value="subsidy">Subsidy</option>
+					</select>
+				</div>
+				<div>
+					<label for="policySide">Target Market Side:</label>
+					<select id="policySide">
+						<option value="demand">Demand (Consumers)</option>
+						<option value="supply">Supply (Producers)</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="input-group">
+				<label for="policyType">Mechanism Type:</label>
+				<select id="policyType">
+					<option value="specific">Specific (Per-Unit)</option>
+					<option value="advalorem">Ad Valorem (% of Base Price)</option>
+				</select>
+			</div>
+
+			<div class="input-group">
+				<label for="wedgeValue" id="sliderLabel">Tax Value ($)</label>
+				<div class="slider-container">
+					<input type="range" id="wedgeValue" min="0" max="100" value="20" step="0.5">
+					<input type="number" id="wedgeBoxValue" min="0" max="100" value="20" step="0.5">
+				</div>
+			</div>
+
+			<h3>Axis Scaling Configuration</h3>
+			<div class="input-group">
+				<label for="axisMode">Axis Scale Mode:</label>
+				<select id="axisMode">
+					<option value="autofit">Autofit Variables Automatically</option>
+					<option value="manual">Manual Axis Range Overrides</option>
+				</select>
+			</div>
+
+			<div class="input-group inline-inputs">
+				<div>
+					<label for="customMaxQ">Max Q (X-Axis):</label>
+					<input type="number" id="customMaxQ" value="100" min="5" max="10000" disabled>
+				</div>
+				<div>
+					<label for="customMaxP">Max P (Y-Axis):</label>
+					<input type="number" id="customMaxP" value="120" min="5" max="10000" disabled>
+				</div>
+			</div>
+			<div class="card graph-panel">
+				<h2>Market Visualization Layout</h2>
+				<canvas id="graphCanvas" width="550" height="550"></canvas>
+			</div>
+
+			<h3>Economic Calculations</h3>
+			<table class="metrics-table">
+				<tr>
+					<td>Pre-Intervention Price ($P_e$):</td>
+					<td id="mktPrice">-</td>
+				</tr>
+				<tr>
+					<td>Pre-Intervention Qty ($Q_e$):</td>
+					<td id="mktQty">-</td>
+				</tr>
+				<tr>
+					<td>Intervention Qty ($Q_{act}$):</td>
+					<td id="actQty">-</td>
+				</tr>
+				<tr>
+					<td>Price Consumers Pay ($P_d$):</td>
+					<td id="priceConsumer">-</td>
+				</tr>
+				<tr>
+					<td>Price Producers Receive ($P_s$):</td>
+					<td id="priceProducer">-</td>
+				</tr>
+				<tr class="dwl-highlight">
+					<td>Deadweight Loss (DWL):</td>
+					<td id="dwlVal">-</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<script>
+		(function () {
+			const canvas = document.getElementById('graphCanvas');
+			const ctx = canvas.getContext('2d');
+
+			const padding = {top: 40, right: 40, bottom: 60, left: 70};
+			const graphWidth = canvas.width - padding.left - padding.right;
+			const graphHeight = canvas.height - padding.top - padding.bottom;
+
+			let maxQ = 100;
+			let maxP = 120;
+
+			const inputs = {
+				demandA: document.getElementById('demandA'),
+				demandB: document.getElementById('demandB'),
+				supplyC: document.getElementById('supplyC'),
+				supplyD: document.getElementById('supplyD'),
+				direction: document.getElementById('policyDirection'),
+				side: document.getElementById('policySide'),
+				type: document.getElementById('policyType'),
+				wedge: document.getElementById('wedgeValue'),
+				wedgeBox: document.getElementById('wedgeBoxValue'),
+				sliderLabel: document.getElementById('sliderLabel'),
+				axisMode: document.getElementById('axisMode'),
+				customMaxQ: document.getElementById('customMaxQ'),
+				customMaxP: document.getElementById('customMaxP'),
+				mktPrice: document.getElementById('mktPrice'),
+				mktQty: document.getElementById('mktQty'),
+				actQty: document.getElementById('actQty'),
+				pConsumer: document.getElementById('priceConsumer'),
+				pProducer: document.getElementById('priceProducer'),
+				dwlVal: document.getElementById('dwlVal')
+			};
+
+			let currentPolicyType = 'specific';
+
+			function toScreenX(q) {return padding.left + (q / maxQ) * graphWidth;}
+			function toScreenY(p) {return padding.top + graphHeight - (p / maxP) * graphHeight;}
+
+			function handleMechanismChange() {
+				const type = inputs.type.value;
+
+				if (type !== currentPolicyType) {
+					currentPolicyType = type;
+					let min = "0", max = "100", step = "0.5", val = "20";
+
+					if (type === 'advalorem') {
+						max = "100"; step = "1"; val = "25";
+					} else if (type === 'lumpsum') {
+						max = "1000"; step = "10"; val = "300";
+					}
+
+					inputs.wedge.min = min; inputs.wedge.max = max; inputs.wedge.step = step; inputs.wedge.value = val;
+					inputs.wedgeBox.min = min; inputs.wedgeBox.max = max; inputs.wedgeBox.step = step; inputs.wedgeBox.value = val;
+				}
+			}
+
+			inputs.wedge.addEventListener('input', (e) => {
+				inputs.wedgeBox.value = e.target.value;
+				update();
+			});
+
+			inputs.wedgeBox.addEventListener('input', (e) => {
+				let val = parseFloat(e.target.value);
+				if (isNaN(val)) val = 0;
+				const max = parseFloat(inputs.wedgeBox.max);
+				const min = parseFloat(inputs.wedgeBox.min);
+				if (val > max) val = max;
+				if (val < min) val = min;
+				inputs.wedge.value = val;
+				update();
+			});
+
+			function update() {
+				handleMechanismChange();
+
+				const a = parseFloat(inputs.demandA.value) || 0;
+				const b = parseFloat(inputs.demandB.value) || 0.01;
+				const c = parseFloat(inputs.supplyC.value) || 0;
+				const d = parseFloat(inputs.supplyD.value) || 0;
+
+				const FnD = (q) => a - b * q;
+				const FnS = (q) => c + d * q;
+
+				const direction = inputs.direction.value;
+				const side = inputs.side.value;
+				const type = inputs.type.value;
+				const rate = parseFloat(inputs.wedge.value) || 0;
+
+				if (type === 'specific') {
+					inputs.sliderLabel.textContent = direction === 'tax' ? "Unit Tax ($)" : "Unit Subsidy ($)";
+				} else if (type === 'advalorem') {
+					inputs.sliderLabel.textContent = direction === 'tax' ? "Ad Valorem Tax (%)" : "Ad Valorem Subsidy (%)";
+				} else {
+					inputs.sliderLabel.textContent = direction === 'tax' ? "Lump-Sum Total Cost ($)" : "Lump-Sum Total Grant ($)";
+				}
+
+				let Qe = 0;
+				if ((b + d) !== 0) {
+					Qe = Math.max(0, (a - c) / (b + d));
+				}
+				const Pe = FnD(Qe);
+
+				let Qact = Qe;
+				let Pd = Pe;
+				let Ps = Pe;
+				let dwl = 0;
+
+				let FnDEff = FnD;
+				let FnSEff = FnS;
+
+				if (type !== 'lumpsum') {
+					if (direction === 'tax') {
+						if (type === 'specific') {
+							if (side === 'demand') {
+								FnDEff = (q) => a - b * q - rate;
+							} else {
+								FnSEff = (q) => c + d * q + rate;
+							}
+							Qact = Math.max(0, (a - c - rate) / (b + d));
+						} else if (type === 'advalorem') {
+							const m = 1 + (rate / 100);
+							if (side === 'demand') {
+								FnDEff = (q) => (a - b * q) / m;
+								Qact = Math.max(0, (a - c * m) / (b * m + d));
+							} else {
+								FnSEff = (q) => (c + d * q) * m;
+								Qact = Math.max(0, (a - c * m) / (b + d * m));
+							}
+						}
+						Pd = FnD(Qact);
+						Ps = FnS(Qact);
+						dwl = 0.5 * (Pd - Ps) * (Qe - Qact);
+					} else {
+						if (type === 'specific') {
+							if (side === 'demand') {
+								FnDEff = (q) => a - b * q + rate;
+							} else {
+								FnSEff = (q) => c + d * q - rate;
+							}
+							Qact = Math.max(0, (a - c + rate) / (b + d));
+						} else if (type === 'advalorem') {
+							const m = 1 + (rate / 100);
+							if (side === 'demand') {
+								FnDEff = (q) => (a - b * q) * m;
+								Qact = Math.max(0, (a * m - c) / (b * m + d));
+							} else {
+								FnSEff = (q) => (c + d * q) / m;
+								Qact = Math.max(0, (a - c / m) / (b + d / m));
+							}
+						}
+						Pd = FnD(Qact);
+						Ps = FnS(Qact);
+						dwl = 0.5 * (Ps - Pd) * (Qact - Qe);
+					}
+				} else {
+					Qact = Qe;
+					Pd = Pe;
+					Ps = Pe;
+					dwl = 0;
+				}
+
+				inputs.mktPrice.textContent = isNaN(Pe) ? "N/A" : Pe.toFixed(2);
+				inputs.mktQty.textContent = Qe.toFixed(2);
+				inputs.actQty.textContent = Qact.toFixed(2);
+				inputs.pConsumer.textContent = isNaN(Pd) ? "N/A" : Pd.toFixed(2);
+				inputs.pProducer.textContent = isNaN(Ps) ? "N/A" : Ps.toFixed(2);
+				inputs.dwlVal.textContent = Math.max(0, dwl).toFixed(2);
+
+				if (inputs.axisMode.value === 'autofit') {
+					inputs.customMaxQ.disabled = true;
+					inputs.customMaxP.disabled = true;
+
+					const baselineMaxQ = Math.max(Qe, Qact, 10);
+					maxQ = Math.ceil((baselineMaxQ * 1.5) / 10) * 10;
+
+					const baselineMaxP = Math.max(Pe, Pd, Ps, a, c, FnDEff(0), FnSEff(0), 10);
+					maxP = Math.ceil((baselineMaxP * 1.3) / 10) * 10;
+
+					inputs.customMaxQ.value = maxQ;
+					inputs.customMaxP.value = maxP;
+				} else {
+					inputs.customMaxQ.disabled = false;
+					inputs.customMaxP.disabled = false;
+					maxQ = parseFloat(inputs.customMaxQ.value) || 100;
+					maxP = parseFloat(inputs.customMaxP.value) || 120;
+				}
+
+				render(FnD, FnS, FnDEff, FnSEff, Pe, Qe, Qact, Pd, Ps, direction, type, rate);
+			}
+
+			function calculateDynamicStep(range) {
+				if (range <= 20) return 2;
+				if (range <= 50) return 5;
+				if (range <= 200) return 20;
+				if (range <= 500) return 50;
+				if (range <= 2000) return 200;
+				return 500;
+			}
+
+			function getBoundedLinePoints(Fn) {
+				let qStart = 0;
+				let pStart = Fn(qStart);
+				let qEnd = maxQ;
+				let pEnd = Fn(qEnd);
+
+				if (pStart < 0 && pEnd > 0 && pStart !== pEnd) {
+					qStart = (0 - pStart) / ((pEnd - pStart) / (maxQ - 0));
+					pStart = 0;
+				} else if (pStart > 0 && pEnd < 0 && pStart !== pEnd) {
+					qEnd = (0 - pStart) / ((pEnd - pStart) / (maxQ - 0));
+					pEnd = 0;
+				}
+
+				if (pStart > maxP && pEnd < maxP && pStart !== pEnd) {
+					qStart = (maxP - pStart) / ((pEnd - pStart) / (maxQ - 0));
+					pStart = maxP;
+				} else if (pStart < maxP && pEnd > maxP && pStart !== pEnd) {
+					qEnd = (maxP - pStart) / ((pEnd - pStart) / (maxQ - 0));
+					pEnd = maxP;
+				}
+
+				if (pStart < 0 && pEnd < 0) return null;
+				return {x1: toScreenX(qStart), y1: toScreenY(pStart), x2: toScreenX(qEnd), y2: toScreenY(pEnd)};
+			}
+
+			function drawBoundedLine(Fn, color, width, dashed = false) {
+				const pts = getBoundedLinePoints(Fn);
+				if (!pts) return;
+
+				ctx.strokeStyle = color;
+				ctx.lineWidth = width;
+				if (dashed) ctx.setLineDash([3, 4]);
+
+				ctx.beginPath();
+				ctx.moveTo(pts.x1, pts.y1);
+				ctx.lineTo(pts.x2, pts.y2);
+				ctx.stroke();
+
+				if (dashed) ctx.setLineDash([]);
+			}
+
+			function render(FnD, FnS, FnDEff, FnSEff, Pe, Qe, Qact, Pd, Ps, direction, type, rate) {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+				const stepQ = calculateDynamicStep(maxQ);
+				const stepP = calculateDynamicStep(maxP);
+
+				ctx.strokeStyle = '#2a2a2a'; ctx.lineWidth = 1;
+				ctx.fillStyle = '#888888'; ctx.font = '10px monospace';
+				for (let i = stepQ; i < maxQ; i += stepQ) {
+					ctx.beginPath(); ctx.moveTo(toScreenX(i), toScreenY(0)); ctx.lineTo(toScreenX(i), toScreenY(maxP)); ctx.stroke();
+					ctx.fillText(i, toScreenX(i) - 5, toScreenY(0) + 15);
+				}
+				for (let i = stepP; i < maxP; i += stepP) {
+					ctx.beginPath(); ctx.moveTo(toScreenX(0), toScreenY(i)); ctx.lineTo(toScreenX(maxQ), toScreenY(i)); ctx.stroke();
+					ctx.fillText(i, toScreenX(0) - 32, toScreenY(i) + 4);
+				}
+
+				ctx.fillStyle = '#ffffff';
+				ctx.font = 'bold 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+				ctx.fillText('Quantity (Q)', padding.left + graphWidth / 2 - 35, canvas.height - 15);
+
+				ctx.save();
+				ctx.translate(20, padding.top + graphHeight / 2 + 25);
+				ctx.rotate(-Math.PI / 2);
+				ctx.fillText('Price (P)', 0, 0);
+				ctx.restore();
+
+				if (type !== 'lumpsum' && Qact !== Qe) {
+					ctx.fillStyle = direction === 'tax' ? 'rgba(207, 102, 121, 0.35)' : 'rgba(102, 187, 106, 0.3)';
+					ctx.beginPath();
+					if (direction === 'tax' && Qact < Qe) {
+						ctx.moveTo(toScreenX(Qact), toScreenY(Math.min(maxP, Math.max(0, Pd))));
+						ctx.lineTo(toScreenX(Qe), toScreenY(Math.min(maxP, Math.max(0, Pe))));
+						ctx.lineTo(toScreenX(Qact), toScreenY(Math.min(maxP, Math.max(0, Ps))));
+					} else if (direction === 'subsidy' && Qact > Qe) {
+						ctx.moveTo(toScreenX(Qe), toScreenY(Math.min(maxP, Math.max(0, Pe))));
+						ctx.lineTo(toScreenX(Qact), toScreenY(Math.min(maxP, Math.max(0, Ps))));
+						ctx.lineTo(toScreenX(Qact), toScreenY(Math.min(maxP, Math.max(0, Pd))));
+					}
+					ctx.closePath(); ctx.fill();
+				}
+
+				if (type !== 'lumpsum' && rate > 0) {
+					if (FnDEff !== FnD) drawBoundedLine(FnDEff, '#29b6f6aa', 1.5, true);
+					if (FnSEff !== FnS) drawBoundedLine(FnSEff, '#66bb6aaa', 1.5, true);
+				}
+
+				drawBoundedLine(FnD, '#29b6f6', 3, false);
+				drawBoundedLine(FnS, '#66bb6a', 3, false);
+
+				ctx.strokeStyle = '#aaaaaa'; ctx.lineWidth = 1.2; ctx.setLineDash([4, 4]);
+				if (type !== 'lumpsum') {
+					if (Pd <= maxP && Pd >= 0) {ctx.beginPath(); ctx.moveTo(toScreenX(0), toScreenY(Pd)); ctx.lineTo(toScreenX(Qact), toScreenY(Pd)); ctx.stroke();}
+					if (Ps <= maxP && Ps >= 0) {ctx.beginPath(); ctx.moveTo(toScreenX(0), toScreenY(Ps)); ctx.lineTo(toScreenX(Qact), toScreenY(Ps)); ctx.stroke();}
+					if (Qact <= maxQ && Qact >= 0) {ctx.beginPath(); ctx.moveTo(toScreenX(Qact), toScreenY(0)); ctx.lineTo(toScreenX(Qact), toScreenY(Math.min(maxP, Math.max(0, Math.max(Pd, Ps))))); ctx.stroke();}
+					ctx.setLineDash([]);
+
+					ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2;
+					ctx.beginPath(); ctx.moveTo(toScreenX(Qact), toScreenY(Math.min(maxP, Math.max(0, Pd)))); ctx.lineTo(toScreenX(Qact), toScreenY(Math.min(maxP, Math.max(0, Ps)))); ctx.stroke();
+				} else {
+					if (Pe <= maxP && Pe >= 0) {ctx.beginPath(); ctx.moveTo(toScreenX(0), toScreenY(Pe)); ctx.lineTo(toScreenX(Qe), toScreenY(Pe)); ctx.stroke();}
+					if (Qe <= maxQ && Qe >= 0) {ctx.beginPath(); ctx.moveTo(toScreenX(Qe), toScreenY(0)); ctx.lineTo(toScreenX(Qe), toScreenY(Math.min(maxP, Math.max(0, Pe)))); ctx.stroke();}
+					ctx.setLineDash([]);
+				}
+
+				ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2;
+				ctx.beginPath(); ctx.moveTo(padding.left, padding.top); ctx.lineTo(padding.left, canvas.height - padding.bottom); ctx.lineTo(canvas.width - padding.right, canvas.height - padding.bottom); ctx.stroke();
+
+				ctx.fillStyle = '#ffffff';
+				if (!isNaN(Pe) && Qe <= maxQ && Qe >= 0 && Pe <= maxP && Pe >= 0) {ctx.beginPath(); ctx.arc(toScreenX(Qe), toScreenY(Pe), 5, 0, 2 * Math.PI); ctx.fill();}
+			}
+
+			[inputs.demandA, inputs.demandB, inputs.supplyC, inputs.supplyD, inputs.direction, inputs.side, inputs.type, inputs.axisMode, inputs.customMaxQ, inputs.customMaxP].forEach(el => {
+				el.addEventListener('input', update);
+			});
+
+			update();
+		})();
+	</script>
+</div>

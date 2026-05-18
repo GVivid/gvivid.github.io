@@ -1,5 +1,4 @@
 .DS_Store
-archetypes
 assets
 data
 debug.sh
@@ -11,3 +10,4 @@ getContent.sh
 backups
 .hugo_build.lock
 hugo.toml.path
+Files-To-Push.md

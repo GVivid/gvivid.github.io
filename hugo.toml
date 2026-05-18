@@ -79,9 +79,9 @@ shortname = "GVivid"
   name = "About"
   weight = 3
 [[menu.main]]
-  name = "Portfolio"
+  name = "Projects"
   weight = 1
-  url  = "portfolio/"
+  url  = "projects/"
 
 
 [module]
