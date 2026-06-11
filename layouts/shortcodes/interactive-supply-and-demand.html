@@ -31,9 +31,9 @@
 		.dwl-calculator-module .card {
 			background: var(--card-bg);
 			border-radius: 8px;
-			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+			/*box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);*/
 			border: 1px solid var(--border-color);
-			padding: 20px;
+			padding: 10px;
 		}
 
 		.dwl-calculator-module .controls-panel {
@@ -355,8 +355,8 @@
 				const c = parseFloat(inputs.supplyC.value) || 0;
 				const d = parseFloat(inputs.supplyD.value) || 0;
 
-				const FnD = (q) => a - b * q;
-				const FnS = (q) => c + d * q;
+				const FnD = (q) => a - (b * q);
+				const FnS = (q) => c + (d * q);
 
 				const direction = inputs.direction.value;
 				const side = inputs.side.value;

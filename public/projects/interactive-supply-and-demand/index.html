@@ -13,7 +13,7 @@ Interactive Supply and Demand · GVivid
 
 
 <meta name="author" content="GVivid">
-<meta name="description" content="I wanted to make an interactive supply and demand graph to visualize the effects of subsidies and taxes. [[Nice]]
+<meta name="description" content="I wanted to make an interactive supply and demand graph to visualize the effects of subsidies and taxes. So, I experimented with artificial intelligence to see how well it would do. After some modifications, this is what came from the experiment.
 
 	
 
@@ -142,12 +142,12 @@ Interactive Supply and Demand · GVivid
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Interactive Supply and Demand">
-  <meta name="twitter:description" content="I wanted to make an interactive supply and demand graph to visualize the effects of subsidies and taxes. [[Nice]] Market Parameters Demand Configuration: P = a - b * Q Intercept (a): Slope Coefficient (b): Supply Configuration: P = c &#43; d * Q Intercept (c): Slope Coefficient (d): Policy Configuration Policy Instrument: Tax Subsidy Target Market Side: Demand (Consumers) Supply (Producers) Mechanism Type: Specific (Per-Unit) Ad Valorem (% of Base Price) Tax Value ($) Axis Scaling Configuration Axis Scale Mode: Autofit Variables Automatically Manual Axis Range Overrides Max Q (X-Axis): Max P (Y-Axis): Market Visualization Layout Economic Calculations Pre-Intervention Price ($P_e$): - Pre-Intervention Qty ($Q_e$): - Intervention Qty ($Q_{act}$): - Price Consumers Pay ($P_d$): - Price Producers Receive ($P_s$): - Deadweight Loss (DWL): -">
+  <meta name="twitter:description" content="I wanted to make an interactive supply and demand graph to visualize the effects of subsidies and taxes. So, I experimented with artificial intelligence to see how well it would do. After some modifications, this is what came from the experiment. Market Parameters Demand Configuration: P = a - b * Q Intercept (a): Slope Coefficient (b): Supply Configuration: P = c &#43; d * Q Intercept (c): Slope Coefficient (d): Policy Configuration Policy Instrument: Tax Subsidy Target Market Side: Demand (Consumers) Supply (Producers) Mechanism Type: Specific (Per-Unit) Ad Valorem (% of Base Price) Tax Value ($) Axis Scaling Configuration Axis Scale Mode: Autofit Variables Automatically Manual Axis Range Overrides Max Q (X-Axis): Max P (Y-Axis): Market Visualization Layout Economic Calculations Pre-Intervention Price ($P_e$): - Pre-Intervention Qty ($Q_e$): - Intervention Qty ($Q_{act}$): - Price Consumers Pay ($P_d$): - Price Producers Receive ($P_s$): - Deadweight Loss (DWL): -">
 
 <meta property="og:url" content="//localhost:1313/projects/interactive-supply-and-demand/">
   <meta property="og:site_name" content="GVivid">
   <meta property="og:title" content="Interactive Supply and Demand">
-  <meta property="og:description" content="I wanted to make an interactive supply and demand graph to visualize the effects of subsidies and taxes. [[Nice]] Market Parameters Demand Configuration: P = a - b * Q Intercept (a): Slope Coefficient (b): Supply Configuration: P = c &#43; d * Q Intercept (c): Slope Coefficient (d): Policy Configuration Policy Instrument: Tax Subsidy Target Market Side: Demand (Consumers) Supply (Producers) Mechanism Type: Specific (Per-Unit) Ad Valorem (% of Base Price) Tax Value ($) Axis Scaling Configuration Axis Scale Mode: Autofit Variables Automatically Manual Axis Range Overrides Max Q (X-Axis): Max P (Y-Axis): Market Visualization Layout Economic Calculations Pre-Intervention Price ($P_e$): - Pre-Intervention Qty ($Q_e$): - Intervention Qty ($Q_{act}$): - Price Consumers Pay ($P_d$): - Price Producers Receive ($P_s$): - Deadweight Loss (DWL): -">
+  <meta property="og:description" content="I wanted to make an interactive supply and demand graph to visualize the effects of subsidies and taxes. So, I experimented with artificial intelligence to see how well it would do. After some modifications, this is what came from the experiment. Market Parameters Demand Configuration: P = a - b * Q Intercept (a): Slope Coefficient (b): Supply Configuration: P = c &#43; d * Q Intercept (c): Slope Coefficient (d): Policy Configuration Policy Instrument: Tax Subsidy Target Market Side: Demand (Consumers) Supply (Producers) Mechanism Type: Specific (Per-Unit) Ad Valorem (% of Base Price) Tax Value ($) Axis Scaling Configuration Axis Scale Mode: Autofit Variables Automatically Manual Axis Range Overrides Max Q (X-Axis): Max P (Y-Axis): Market Visualization Layout Economic Calculations Pre-Intervention Price ($P_e$): - Pre-Intervention Qty ($Q_e$): - Intervention Qty ($Q_{act}$): - Price Consumers Pay ($P_d$): - Price Producers Receive ($P_s$): - Deadweight Loss (DWL): -">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="article">
     <meta property="article:section" content="projects">
@@ -291,15 +291,7 @@ Interactive Supply and Demand · GVivid
     <div class="post-content">
       
       
-      I wanted to make an interactive supply and demand graph to visualize the effects of subsidies and taxes. <a
-    href="
-        
-            //localhost:1313/posts/nice/
-        
-    ">
-    Nice
-</a>
-
+      I wanted to make an interactive supply and demand graph to visualize the effects of subsidies and taxes. So, I experimented with artificial intelligence to see how well it would do. After some modifications, this is what came from the experiment.
 <div class="dwl-calculator-module">
 	<style>
 		.dwl-calculator-module {
@@ -333,9 +325,9 @@ Interactive Supply and Demand · GVivid
 		.dwl-calculator-module .card {
 			background: var(--card-bg);
 			border-radius: 8px;
-			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+			 
 			border: 1px solid var(--border-color);
-			padding: 20px;
+			padding: 10px;
 		}
 
 		.dwl-calculator-module .controls-panel {
@@ -657,8 +649,8 @@ Interactive Supply and Demand · GVivid
 				const c = parseFloat(inputs.supplyC.value) || 0;
 				const d = parseFloat(inputs.supplyD.value) || 0;
 
-				const FnD = (q) => a - b * q;
-				const FnS = (q) => c + d * q;
+				const FnD = (q) => a - (b * q);
+				const FnS = (q) => c + (d * q);
 
 				const direction = inputs.direction.value;
 				const side = inputs.side.value;
